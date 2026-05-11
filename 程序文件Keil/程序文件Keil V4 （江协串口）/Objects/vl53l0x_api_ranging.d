@@ -1,0 +1,16 @@
+.\objects\vl53l0x_api_ranging.o: VL53L0X_API\core\src\vl53l0x_api_ranging.c
+.\objects\vl53l0x_api_ranging.o: .\VL53L0X_API\core\inc\vl53l0x_api.h
+.\objects\vl53l0x_api_ranging.o: .\VL53L0X_API\core\inc\vl53l0x_api_strings.h
+.\objects\vl53l0x_api_ranging.o: .\VL53L0X_API\core\inc\vl53l0x_def.h
+.\objects\vl53l0x_api_ranging.o: .\VL53L0X_API\core\inc\vl53l0x_device.h
+.\objects\vl53l0x_api_ranging.o: .\VL53L0X_API\platform\inc\vl53l0x_types.h
+.\objects\vl53l0x_api_ranging.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\vl53l0x_api_ranging.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\vl53l0x_api_ranging.o: .\VL53L0X_API\platform\inc\vl53l0x_platform.h
+.\objects\vl53l0x_api_ranging.o: .\VL53L0X_API\platform\inc\vl53l0x_platform_log.h
+.\objects\vl53l0x_api_ranging.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\vl53l0x_api_ranging.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\vl53l0x_api_ranging.o: .\VL53L0X_API\platform\inc\vl53l0x_i2c_platform.h
+.\objects\vl53l0x_api_ranging.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\vl53l0x_api_ranging.o: .\VL53L0X_API\core\inc\vl53l0x_api_core.h
+.\objects\vl53l0x_api_ranging.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
