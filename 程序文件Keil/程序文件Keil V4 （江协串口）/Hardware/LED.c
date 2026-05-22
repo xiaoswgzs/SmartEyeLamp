@@ -14,7 +14,7 @@ void LED1_Inc(void)
 {
     if (Brightness < 100) // 限制最大亮度不能超过100
     {
-        Brightness++;
+        Brightness+=3;
         
         // 🌟 核心修复：把当前亮度存入记忆！
         Brightness_Set = Brightness; 
@@ -29,7 +29,7 @@ void LED1_Dec(void)
 {
     if (Brightness > 0) // 限制最小亮度不能低于0
     {
-        Brightness--;
+        Brightness-=3;
         
 		
 		
@@ -42,7 +42,7 @@ void LED1_Dec(void)
         }
         
         PWM_SetCompare3(Brightness);
-		OLED_ShowString(1,5,"ON ");
+		//OLED_ShowString(1,5,"ON ");
 		OLED_ShowNum(2,5,Brightness,3);
     }
 }

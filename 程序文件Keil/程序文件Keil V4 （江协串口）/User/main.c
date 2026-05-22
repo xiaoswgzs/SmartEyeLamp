@@ -90,13 +90,13 @@ int main(void)
 		if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_11) == 1) // 持续按住 PB11（变亮）
 		{
 			LED1_Inc();
-			Delay_ms(30); // 【魔法延时】：每次加1亮度等15毫秒。100次就是1.5秒拉满，极其平滑护眼！
+			Delay_ms(10); // 【魔法延时】：每次加1亮度等15毫秒。100次就是1.5秒拉满，极其平滑护眼！
 		}
 		
 		if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0) == 1)  // 持续按住 PB0（变暗）
 		{
 			LED1_Dec();
-			Delay_ms(30); 
+			Delay_ms(10); 
 		}
 		
 		// 5. 蓝牙串口通信逻辑（保持你原来的不变）
