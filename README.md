@@ -1,6 +1,6 @@
 ﻿# Smart Eye Lamp
 
-智能护眼台灯 / 智能小夜灯原型项目。仓库包含 STM32F103C8 固件、Proteus 核心电路仿真、PCB/3D 外壳模型和器材报价表。项目主要实现手动调光、人体存在检测自动亮灭、ToF 手势控制、OLED 状态显示以及串口/BLE 透传控制。
+智能护眼台灯 / 智能小夜灯原型项目。仓库包含 STM32F103C8 固件、uni-app + Vue 3 移动端 App、Proteus 核心电路仿真、PCB/3D 外壳模型和器材报价表。项目主要实现手动调光、人体存在检测自动亮灭、ToF 手势控制、OLED 状态显示以及串口/BLE 透传控制。
 
 ## 项目概览
 
@@ -10,6 +10,7 @@
 - 手势/距离检测：VL53L0X ToF 模块，使用官方 VL53L0X API 并移植到标准库工程。
 - 交互：触摸按键、OLED 显示、USART1 串口协议，可接 BLE 串口透传模块。
 - 输出：TIM2_CH3 PWM 控制灯光亮度，带亮度记忆、平滑渐变和操作反馈闪烁。
+- 移动端：uni-app + Vue 3 App，通过 BLE UART 与固件串口协议通信。
 
 ## 目录结构
 
@@ -23,9 +24,11 @@
 |   +-- keil-v5-serial/
 |   +-- keil-v6-serial/
 |   +-- keil-v7-final/      # 推荐使用的最终版本
++-- mobile-app/             # uni-app + Vue 3 BLE 控制 App 源码
 +-- pcb-3d-models/          # PCB/底板/外壳 3D 模型文件
 +-- simulation/             # Proteus 仿真工程
 |   +-- project-backups/    # Proteus 自动备份
++-- .gitignore
 +-- README.md
 +-- 器材报价表.xlsx
 ```
@@ -43,6 +46,7 @@
 | `程序文件Keil V5 （江协串口)` | `keil-v5-serial` |
 | `程序文件Keil V6 （江协串口)` | `keil-v6-serial` |
 | `程序文件Keil V7 （江协串口)最终版本` | `keil-v7-final` |
+| `nightlight_uniapp_vue3_apple_clean_v2/nightlight_uniapp_vue3` | `mobile-app` |
 
 ## 推荐工程入口
 
@@ -53,6 +57,34 @@ firmware-keil/keil-v7-final/Project.uvprojx
 ```
 
 V7 是当前最完整版本，相比 V6 增加了 `Protocol.c/.h`，串口控制协议更清晰，支持状态查询、亮度设置、人体触发计数等功能。
+
+## App 工程
+
+移动端源码位于：
+
+```text
+mobile-app/
+```
+
+这是一个 uni-app + Vue 3 App，面向 Android 真机运行，通过 BLE 串口透传模块连接台灯。核心文件：
+
+| 文件 | 作用 |
+| --- | --- |
+| `pages/index/index.vue` | 主界面，包含连接、模式切换、亮度控制、人体触发统计和通信日志 |
+| `utils/ble.js` | BLE 扫描、连接、UART 服务发现、notify 接收和分包发送 |
+| `utils/protocol.js` | `@COMMAND\r\n` 命令生成、`#TYPE,K=V` 回包解析和状态合并 |
+| `manifest.json` | uni-app 应用信息和 Android 蓝牙权限配置 |
+| `PROTOCOL.md` | App 与固件之间的 BLE UART 协议文档 |
+
+App 运行步骤：
+
+1. 使用 HBuilderX 打开 `mobile-app/`。
+2. 运行到 Android 真机。
+3. 授予蓝牙和定位权限。
+4. 在 App 中扫描并连接台灯 BLE 串口透传模块。
+5. 使用模式切换、亮度调节、状态查询和人体触发统计功能。
+
+`mobile-app/unpackage/` 是 HBuilderX/uni-app 构建输出，已通过 `.gitignore` 排除，不作为源码提交。
 
 ## 固件模块说明
 
@@ -167,6 +199,8 @@ V7 支持的常用命令：
 | `@COUNT?\r\n` 或 `@HUMAN_COUNT?\r\n` | 查询人体触发次数 |
 | `@COUNT_RESET\r\n` 或 `@HUMAN_COUNT_RESET\r\n` | 清零人体触发次数 |
 
+App 端使用同一套命令，协议细节也同步记录在 `mobile-app/PROTOCOL.md`。
+
 典型回包：
 
 ```text
@@ -211,14 +245,14 @@ V7 支持的常用命令：
 
 ## 已知注意事项
 
-- 仓库中包含 Keil 编译产物，如 `Objects/`、`Listings/`、`.uvguix.*` 和部分 `.vscode/keil-assistant.log`。如果后续要做长期维护，建议增加 `.gitignore`，减少构建产物进入版本管理。
-- 当前源码里有一些中文注释和显示字符串呈现乱码，通常是 GBK/UTF-8 编码混用导致。建议后续统一编码，或将串口调试/OLED 文本改成 ASCII。
+- 仓库历史中已经包含 Keil 编译产物，如 `Objects/`、`Listings/`、`.uvguix.*` 和部分 `.vscode/keil-assistant.log`。本轮已新增 `.gitignore` 排除 App 构建产物，后续可继续清理固件构建输出。
+- 固件源码里仍有一些中文注释和显示字符串呈现乱码，通常是 GBK/UTF-8 编码混用导致。建议后续统一编码，或将串口调试/OLED 文本改成 ASCII。
 - `Serial_RXPacket` 长度为 100 字节，串口接收状态机当前对超长输入的边界保护较弱，实际使用时应避免发送超过缓冲区的命令。
 - `VL53L0X` 和 `OLED` 使用不同的软件 I2C 引脚；硬件连线时不要混接。
 
 ## 后续整理建议
 
-- 增加 `.gitignore`，过滤 Keil 构建输出和用户本地配置。
+- 扩展 `.gitignore`，继续过滤 Keil 构建输出和用户本地配置。
 - 将最终版本单独整理为主固件目录，历史版本可归档到 `archive/`。
 - 修复源码注释/字符串编码，避免后续维护时继续扩散乱码。
-- 给串口协议补一份上位机或 BLE App 调试示例。
+- 给 BLE App 增加真机截图、常见 BLE 模块 UUID 配置说明和发布包构建说明。

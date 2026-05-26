@@ -1,0 +1,13 @@
+# HBuilderX / uni-app build output
+mobile-app/unpackage/
+
+# JavaScript dependencies
+node_modules/
+mobile-app/node_modules/
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

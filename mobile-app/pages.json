@@ -1,0 +1,19 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "CodeCat Light",
+        "navigationBarBackgroundColor": "#0D1117",
+        "navigationBarTextStyle": "white",
+        "backgroundColor": "#0D1117"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "CodeCat Light",
+    "navigationBarBackgroundColor": "#0D1117",
+    "backgroundColor": "#0D1117"
+  }
+}

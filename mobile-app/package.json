@@ -1,0 +1,14 @@
+{
+  "name": "nightlight-ble-app",
+  "version": "1.0.0",
+  "description": "Smart NightLight BLE UART app based on uni-app + Vue3",
+  "scripts": {
+    "dev:app": "uni -p app",
+    "build:app": "uni build -p app"
+  },
+  "dependencies": {
+    "@dcloudio/uni-app": "latest",
+    "vue": "latest"
+  },
+  "devDependencies": {}
+}
